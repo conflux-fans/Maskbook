@@ -145,6 +145,9 @@ const useStyles = makeStyles()((theme) => ({
         userSelect: 'none',
         width: 120,
     },
+    hide: {
+        display: 'none',
+    },
     loadingWrapper: {
         display: 'flex',
         justifyContent: 'center',
@@ -256,6 +259,8 @@ export function SelectNftTokenDialog(props: SelectNftTokenDialogProps) {
         useState<(ERC721TokenDetailed & { index: number })[]>(existTokenDetailedList)
     const [loadingToken, setLoadingToken] = useState(false)
     const [tokenId, setTokenId, erc721TokenDetailedCallback] = useERC721TokenDetailedCallback(contract)
+    const [tokenIdListInput, setTokenIdListInput] = useState<string>('')
+    const [tokenIdFilterList, setTokenIdFilterList] = useState<string[]>([])
 
     useEffect(() => {
         setTokenDetailed(undefined)
@@ -264,10 +269,12 @@ export function SelectNftTokenDialog(props: SelectNftTokenDialogProps) {
         setSearched(false)
     }, [contract])
 
-    const update = useUpdate()
     useEffect(() => {
-        update()
-    }, [tokenDetailedOwnerList])
+        setTokenIdFilterList([])
+    }, [tokenIdListInput])
+
+    const update = useUpdate()
+    useEffect(update, [tokenDetailedOwnerList])
 
     const selectToken = useCallback(
         (
@@ -337,6 +344,15 @@ export function SelectNftTokenDialog(props: SelectNftTokenDialogProps) {
     const isOwner = isSameAddress(account, tokenDetailed?.info.owner) || tokenDetailedSelectedList.length > 0
     const isAdded = existTokenDetailedList.map((t) => t.tokenId).includes(tokenDetailed?.tokenId ?? '')
     //#endregion
+
+    const r = /^(\s?(\d+)\s?,?)+$/.test(tokenIdListInput)
+
+    console.log({ d: tokenIdListInput.match(/^(\s?(\d+)?\s?,?)+$/), r })
+
+    const onFilter = useCallback(() => {
+        if (!/^(\s?(\d+)?\s?,?)+$/.test(tokenIdListInput)) return
+        setTokenIdFilterList(tokenIdListInput.split(',').map((v) => Number(v).toString()))
+    }, [tokenIdListInput])
 
     const onSubmit = useCallback(() => {
         setExistTokenDetailedList(
@@ -412,17 +428,21 @@ export function SelectNftTokenDialog(props: SelectNftTokenDialogProps) {
                             <Paper className={classes.search} elevation={0}>
                                 <SearchIcon className={classes.iconButton} />
                                 <InputBase
-                                    value={tokenId}
+                                    value={tokenDetailedOwnerList.length === 0 ? tokenId : tokenIdListInput}
                                     placeholder="Token ID separated by comma, e.g. 1224, 7873, 8948"
                                     className={classes.textField}
-                                    onChange={(e) => setTokenId(e.target.value)}
+                                    onChange={(e) =>
+                                        tokenDetailedOwnerList.length === 0
+                                            ? setTokenId(e.target.value)
+                                            : setTokenIdListInput(e.target.value)
+                                    }
                                 />
                             </Paper>
                             <Button
-                                disabled={!tokenId}
+                                disabled={tokenDetailedOwnerList.length === 0 ? !tokenId : !tokenIdListInput}
                                 className={classes.searchButton}
                                 variant="contained"
-                                onClick={onSearch}>
+                                onClick={tokenDetailedOwnerList.length === 0 ? onSearch : onFilter}>
                                 {t('search')}
                             </Button>
                         </div>
@@ -447,7 +467,15 @@ export function SelectNftTokenDialog(props: SelectNftTokenDialogProps) {
                                     const findToken = tokenDetailedSelectedList.find((t) => t.tokenId === token.tokenId)
 
                                     return (
-                                        <ListItem className={classes.selectWrapper} key={i.toString()}>
+                                        <ListItem
+                                            className={classNames(
+                                                classes.selectWrapper,
+                                                tokenIdFilterList.length > 0 &&
+                                                    !tokenIdFilterList.includes(token.tokenId)
+                                                    ? classes.hide
+                                                    : '',
+                                            )}
+                                            key={i.toString()}>
                                             <div className={classes.imgWrapper}>
                                                 {token.info.loading ? (
                                                     <CircularProgress size={20} className={classes.loadingNftImg} />
@@ -478,7 +506,9 @@ export function SelectNftTokenDialog(props: SelectNftTokenDialogProps) {
                                                     classes.checkbox,
                                                     findToken ? classes.checked : '',
                                                 )}
-                                                onClick={(event) => selectToken(token, findToken, event.shiftKey, i)}>
+                                                onClick={(event) =>
+                                                    selectToken(token, findToken, event.shiftKey, token.index)
+                                                }>
                                                 {findToken ? <CheckIcon className={classes.checkIcon} /> : null}
                                             </div>
                                         </ListItem>
