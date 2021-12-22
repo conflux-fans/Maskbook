@@ -10,6 +10,7 @@ importers:
     specifiers:
       '@commitlint/cli': ^15.0.0
       '@commitlint/config-conventional': ^15.0.0
+      '@dimensiondev/eslint-plugin': 0.0.0
       '@dimensiondev/kit': 0.0.0-20211118134922-42648c0
       '@dimensiondev/patch-package': ^6.5.0
       '@emotion/cache': ^11.6.0
@@ -63,6 +64,7 @@ importers:
       web3-core-method: 1.5.2
       webpack: 5.65.0
     dependencies:
+      '@dimensiondev/eslint-plugin': 0.0.0_eslint@8.3.0
       '@dimensiondev/kit': 0.0.0-20211118134922-42648c0_903ac568566cb9483e6a82070d95c042
       '@emotion/cache': 11.6.0
       '@emotion/react': 11.6.0_154e5a31edfa4c6eedfb4023570150c2
@@ -3174,6 +3176,15 @@ packages:
     resolution: {integrity: sha512-IuDpS+MpWEsicL3mMsZbGfGKGI+mjx+mFXc/LnpHddB7jdTjR9wP0aMVl1+UVeJjs52TL0i2J8ABSJx62/Qq9A==, tarball: download/@dimensiondev/common-protocols/1.6.0-20210723072221-8f46a92/09eb55a8102a11d5c567724f760fe4cdaa0899ffa263175c95e825efe92bd3d2}
     dependencies:
       '@msgpack/msgpack': 1.12.2
+    dev: false
+
+  /@dimensiondev/eslint-plugin/0.0.0_eslint@8.3.0:
+    resolution: {integrity: sha512-DAuRB5JxxfFCnDQEkKbTYfvo8RGM8AKNGHBxRZDRCtL6kH+mIKvVhugu5DNpSMeHI27WXhCcG6fPbHFCM0jltA==, tarball: download/@dimensiondev/eslint-plugin/0.0.0/f6fbdd0e464cd325facf0106ba322b7ef2af812c8de75dd9dfe0a29eea02dadd}
+    peerDependencies:
+      eslint: '>=6'
+    dependencies:
+      eslint: 8.3.0
+      requireindex: 1.2.0
     dev: false
 
   /@dimensiondev/holoflows-kit/0.9.0-20210902104757-7c3d0d0:
@@ -20462,6 +20473,11 @@ packages:
 
   /require-main-filename/2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
+    dev: false
+
+  /requireindex/1.2.0:
+    resolution: {integrity: sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==}
+    engines: {node: '>=0.10.5'}
     dev: false
 
   /requires-port/1.0.0:
