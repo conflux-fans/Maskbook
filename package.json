@@ -24,7 +24,7 @@
     "packages/mask/**/*": "node ./packages/scripts/src/bin/precommit-hook-localekit.js"
   },
   "dependencies": {
-    "@dimensiondev/eslint-plugin": "0.0.0",
+    "@dimensiondev/eslint-plugin": "0.0.1-20211223054416-e9aed88",
     "@dimensiondev/kit": "0.0.0-20211118134922-42648c0",
     "@emotion/cache": "^11.6.0",
     "@emotion/react": "^11.6.0",

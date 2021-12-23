@@ -35,6 +35,8 @@
         "no-throw-literal": "error",
         "no-script-url": "error",
         "@dimensiondev/no-number-constructor": "error",
+        "@dimensiondev/no-jsx-template-literal": "error",
+        "@dimensiondev/prefer-early-return": "error",
         "react/jsx-boolean-value": "error",
         "react/jsx-curly-brace-presence": ["warn", { "props": "never", "children": "never" }],
         "react/jsx-key": "error",

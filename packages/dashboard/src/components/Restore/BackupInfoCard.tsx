@@ -44,7 +44,9 @@ function economizeAbstract(input: string) {
     if (input.length < 30) return <div>{input}</div>
     return (
         <Tooltip title={input} placement="top" arrow>
-            <div>{`${input.slice(0, 30)}...(${input.split(',').length})`}</div>
+            <div>
+                {input.slice(0, 30)}...({input.split(',').length})
+            </div>
         </Tooltip>
     )
 }
